@@ -2,6 +2,7 @@ import pandas
 import requests
 import datetime
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy
 
 r = requests.get("https://raw.githubusercontent.com/pesikj/progr2-python/master/data/london_merged.csv")
@@ -16,8 +17,15 @@ df_london_merged["weather_code/index"] = df_london_merged["weather_code"].astype
 #print(df_london_merged.dtypes)
 print(df_london_merged.head())
 
-df_london_merged_pivot = pandas.pivot_table(df_london_merged, values="weather_code", index="year", columns="weather_code/index", aggfunc=len, margins=True)
+df_london_merged_pivot = pandas.pivot_table(df_london_merged, values="cnt", index="year", columns="weather_code/index", aggfunc=numpy.sum, margins=True)
 
 print(df_london_merged_pivot)
+
+sns.heatmap(df_london_merged_pivot, annot=True, fmt=".3f", linewidths=0.5, cmap="Greens")
+
+plt.show()
+
+
+
 
 
