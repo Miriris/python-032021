@@ -20,20 +20,25 @@ president_elections["poradi"] = president_elections.groupby(["state", "year"])["
 president_elections = (president_elections[(president_elections["poradi"] == 1.0)])
 #print(president_elections)
 
-president_elections["party_simplified_previous"] = president_elections["party_simplified"].shift(periods=-1)
-print(president_elections)
+president_elections["party_simplified_previous"] = president_elections.groupby("state")["party_simplified"].shift(periods=1)
+#print(president_elections.head(25))
 
 president_elections = president_elections.dropna(subset=["party_simplified_previous"])
 print(president_elections)
 
-president_elections["change"] = numpy.where(president_elections["party_simplified"] == president_elections["party_simplified_previous"], "1", "0")
+president_elections["change"] = numpy.where(president_elections["party_simplified"] == president_elections["party_simplified_previous"], "0", "1")
 print(president_elections)
 
-president_elections_swing = president_elections[(president_elections["change"] == "0")]
-president_elections_swing = president_elections_swing.groupby(["state"]).sum()
-print(president_elections_swing)
+president_elections["change"] = president_elections["change"].astype(int)
 
-president_elections_swing = president_elections_swing.sort_values(by=(["poradi", "state"]), ascending=False)
+president_elections = president_elections.groupby("state")["change"].sum()
+president_elections = president_elections.reset_index()
+print(president_elections)
+
+president_elections = president_elections.sort_values(["change", "state"], ascending=False)
+print(president_elections)
+
+president_elections_swing = (president_elections[(president_elections["change"] != 0)])
 print(president_elections_swing)
 
 
