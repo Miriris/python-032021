@@ -15,7 +15,7 @@ print(zvirata01.tail(30))
 
 def check_url(radek):
     if isinstance(radek.image_src, str):
-        if ((radek.image_src.startswith("https://zoopraha.cz/images/")) and (radek.image_src.endswith("jpg"))):
+        if ((radek.image_src.startswith("https://zoopraha.cz/images/")) and (radek.image_src.endswith("jpg")) or (radek.image_src.endswith("JPG"))):
             return radek.image_src
 
 
@@ -33,3 +33,5 @@ for idx, radek in zvirata01.iterrows():
     nespravny_odkaz = nespravny_odkaz.append({"nazev": nazev, "image_src": image_src}, ignore_index=True)
 
 print(nespravny_odkaz.tail(30))
+#print(nespravny_odkaz.loc[77:82])
+
